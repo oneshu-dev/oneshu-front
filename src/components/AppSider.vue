@@ -1,7 +1,8 @@
 <script setup>
 import { h, ref } from 'vue'
-import { NButton, NMenu, NEllipsis, NIcon, NPopselect, NAvatar } from 'naive-ui'
-import { Dashboard, File, Message, Calendar, Robot, DotsVertical } from '@vicons/tabler'
+import { NButton, NMenu, NEllipsis, NIcon } from 'naive-ui'
+import { User, Dashboard, File, Message, Calendar } from '@vicons/tabler'
+import { RouterLink } from 'vue-router'
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
@@ -33,7 +34,26 @@ function findByKey(items, value) {
 
 let options = ref([
   {
-    label: 'Dashboard',
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: '/login'
+        },
+        'User'
+      ),
+    key: 'user',
+    icon: renderIcon(User)
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: '/dashboard'
+        },
+        'Dashboard'
+      ),
     key: 'dashboard',
     icon: renderIcon(Dashboard)
   },
@@ -43,7 +63,14 @@ let options = ref([
     icon: renderIcon(Calendar)
   },
   {
-    label: 'Message',
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: '/message'
+        },
+        'Message'
+      ),
     key: 'message',
     icon: renderIcon(Message)
   },
@@ -74,34 +101,6 @@ for (let i = 0; i < 5; i++) {
 
 <template>
   <div class="container">
-    <div class="about-me">
-      <NPopselect trigger="click">
-        <NButton id="me">
-          <div
-            style="display: flex; justify-content: space-between; align-items: center; width: 200px"
-          >
-            <div
-              style="
-                display: inline-flex;
-                flex-direction: row;
-                justify-content: start;
-                align-items: center;
-              "
-            >
-              <NAvatar round class="item" style="display: inline-block">
-                <NIcon>
-                  <Robot />
-                </NIcon>
-              </NAvatar>
-              <div class="item">cnachen</div>
-            </div>
-            <NIcon size="20">
-              <DotsVertical />
-            </NIcon>
-          </div>
-        </NButton>
-      </NPopselect>
-    </div>
     <div class="menu">
       <NMenu :options="options" default-value="dashboard" />
     </div>
@@ -111,17 +110,14 @@ for (let i = 0; i < 5; i++) {
     </div>
   </div>
 </template>
-<style>
+<style scoped>
+#bx {
+  margin: auto;
+  width: 210px;
+}
 .container {
   display: flex;
   flex-direction: column;
-}
-.about-me {
-  flex: 0 0 auto;
-  height: 100px;
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
 }
 .menu {
   flex: 1;
@@ -134,15 +130,5 @@ for (let i = 0; i < 5; i++) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-#me {
-  margin: 20px;
-  height: 60px;
-  width: auto;
-}
-.item {
-  margin: 8px;
-  font-weight: bold;
-  font-size: large;
 }
 </style>
